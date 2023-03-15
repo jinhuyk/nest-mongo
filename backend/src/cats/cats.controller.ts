@@ -1,4 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Render } from '@nestjs/common';
+import { CountService } from 'src/count/count.service';
 import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { UpdateCatDto } from './dto/update-cat.dto';
@@ -6,10 +7,12 @@ import { Cat } from './schemas/cat.schema';
 
 @Controller('cats')
 export class CatsController {
-    constructor(private readonly catsService: CatsService){}
-
+    constructor(private readonly catsService: CatsService, 
+                private readonly countService : CountService){}
+    
     @Get()
     async getAll(): Promise<Cat[]>{
+        this.countService.getCount();
         return await this.catsService.getAll();
     }
     @Get('/:id')
