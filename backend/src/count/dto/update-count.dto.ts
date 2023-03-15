@@ -1,7 +1,7 @@
 import { Type } from 'class-transformer';
 import {IsString, IsNumber} from 'class-validator'
 
-export class CreateCatDto {
+export class UpdateCountDto {
     @IsNumber()
-    readonly age: number;
+    readonly count: number;
 }

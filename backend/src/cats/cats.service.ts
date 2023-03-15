@@ -1,12 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { CountService } from 'src/count/count.service';
+import { Count, CountDocument } from 'src/count/schemas/count.schema';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { UpdateCatDto } from './dto/update-cat.dto';
 import { Cat, CatDocument } from './schemas/cat.schema';
 @Injectable()
 export class CatsService {
-    constructor(@InjectModel(Cat.name) private catModel: Model<CatDocument>){}
+    constructor(@InjectModel(Cat.name) private catModel: Model<CatDocument>,
+                private readonly countService : CountService){}
 
     async getAll(): Promise<Cat[]>{
         return await this.catModel.find().exec();
@@ -17,10 +20,12 @@ export class CatsService {
       } 
     
       async create(catsData: CreateCatDto) {
-        let latestId = await this.catModel.findOne({});
-        let la = await this.catModel.findOne({catNum : 1});
-        console.log(la);
-        return await this.catModel.create({...catsData, _id : parseInt(latestId ? latestId.id : 0)+1});
+        const newId : number = await this.countService.getCount()+1;
+        await this.catModel.create({...catsData, _id : newId});
+        const updateNewId = JSON.parse(`{ "count" : ${newId} }`);
+        await this.countService.updateCount(updateNewId);
+        return true;
+
       }
       async update(id: number, updateData : UpdateCatDto) {
         try {

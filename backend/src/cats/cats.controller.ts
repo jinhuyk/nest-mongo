@@ -12,7 +12,7 @@ export class CatsController {
     
     @Get()
     async getAll(): Promise<Cat[]>{
-        this.countService.getCount();
+        
         return await this.catsService.getAll();
     }
     @Get('/:id')

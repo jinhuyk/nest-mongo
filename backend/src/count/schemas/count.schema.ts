@@ -7,7 +7,10 @@ export type CountDocument = Count & Document;
 export class Count{
 
   @Prop()
-  catCount: number;
+  name: string;
+
+  @Prop()
+  count: number;
 }
 
 export const CountSchema = SchemaFactory.createForClass(Count);
