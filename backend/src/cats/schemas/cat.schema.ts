@@ -6,7 +6,7 @@ export type CatDocument = Cat & Document;
 @Schema()
 export class Cat {
   @Prop()
-  id: number;
+  _id: number;
 
   @Prop()
   name: string;

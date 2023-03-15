@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>ejs-view test</title>
+    </head>
+    <body>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <h1>ejs-view test</h1>
+        <button id="post">button</button>
+        <button onclick="location.herf = '/cats/1'">button</button>
+    </body>
+    <script>
+        $("#post").click(function(){
+            const age = 5;
+            $.ajax({
+                method: 'POST',
+                url:'/cats',
+                data:{
+                    name : "bacteria",
+                    age : age,
+                    breed :"maltiz"
+                }
+            }).done(function(rst){
+                alert('update')
+            })
+        })
+    </script>
+</html>

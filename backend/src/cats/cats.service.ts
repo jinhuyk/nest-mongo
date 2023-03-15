@@ -13,16 +13,18 @@ export class CatsService {
     }
 
     async getOne(id:number) {
-        return await this.catModel.find({"id" : id});
+        return await this.catModel.find({"_id" : id});
       } 
     
       async create(catsData: CreateCatDto) {
-        let latestId = await this.catModel.findOne();
-        return await this.catModel.create({...catsData, id : parseInt(latestId ? latestId.id : 0)+1});
+        let latestId = await this.catModel.findOne({});
+        let la = await this.catModel.findOne({catNum : 1});
+        console.log(la);
+        return await this.catModel.create({...catsData, _id : parseInt(latestId ? latestId.id : 0)+1});
       }
       async update(id: number, updateData : UpdateCatDto) {
         try {
-          await this.catModel.where({"id" : id}).update(updateData);
+          await this.catModel.where({"_id" : id}).update(updateData);
           return true
         }
         catch(e) {
@@ -32,7 +34,7 @@ export class CatsService {
 
       async delete(id: number) {
         try {
-          await this.catModel.remove({"id" : id});
+          await this.catModel.remove({"_id" : id});
           return true
         }
         catch(e) {
